@@ -12,5 +12,6 @@ int isValidFloat(char *pBuffer, int limite);
 int isValidEntero(char *pBuffer, int limite);
 int utn_getFloat( float *pFloat, int limite, char *mensaje,char *mensajeError, int reintentos);
 int utn_getEntero( int *pEntero, int limite, char *mensaje,char *mensajeError, int reintentos);
-
+int utn_getLetrasYNumeros(char* pBuffer,int limite,char* msj);
+int getString(char* pBuffer, int limite);
 #endif // UTN_H_INCLUDED

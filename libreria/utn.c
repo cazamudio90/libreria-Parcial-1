@@ -256,3 +256,34 @@ int utn_getEmial(char *pArray,int limite,char* msj,char*msjError,int reintentos)
     }
     return retorno;
 }
+int getString(char* pBuffer, int limite)
+{
+    int retorno = -1;
+    char bufferStr[100];
+    int len;
+    if(pBuffer != NULL && limite > 0)
+    {
+       // __fpurge(stdin);
+        fgets(bufferStr,limite,stdin);
+        len = strlen(bufferStr);
+        if(len != limite-1 ||  bufferStr[limite-2] == '\n')
+        {
+            bufferStr[len-1] = '\0';
+        }
+        retorno = 0;
+        strncpy(pBuffer,bufferStr,limite);
+    }
+    return retorno;
+}
+
+int utn_getLetrasYNumeros(char* pBuffer,int limite,char* msj)
+{
+    int retorno=-1;
+    char aux[limite];
+    printf("%s",msj);
+    if (pBuffer!=NULL&&limite>0&&getString(aux,limite)==0){
+            retorno=0;
+            strncpy(pBuffer,aux,limite);
+}
+    return retorno;
+}
