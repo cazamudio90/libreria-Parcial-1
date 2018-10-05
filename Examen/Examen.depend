@@ -1,0 +1,58 @@
+# depslib dependency file v1.0
+1538698226 source:/home/alumno/Descargas/Examen/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+
+1538692023 /home/alumno/Descargas/Examen/utn.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1538700354 /home/alumno/Descargas/Examen/clientes.h
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<ctype.h>
+	"afiches.h"
+	"utn.h"
+
+1538700372 source:/home/alumno/Descargas/Examen/clientes.c
+	<stdio.h>
+	<stdio_ext.h>
+	<string.h>
+	<stdlib.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+
+1538699413 source:/home/alumno/Descargas/Examen/utn.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1538698226 /home/alumno/Descargas/Examen/afiches.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+
+1538700137 source:/home/alumno/Descargas/Examen/afiches.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+
