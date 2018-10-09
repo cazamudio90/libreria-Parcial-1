@@ -20,4 +20,5 @@ int addClientes (clientes* pArray,int limite, int* id);
 int mostarMenu(clientes * pArray, int limite, afiches* pArrayAfic, int limiteAfi);
 int cli_modificarCliente(clientes* pArray, int len, int id);
 int printClientesAfiches(clientes* pArray, int limite, afiches* pArrayAfi, int limiteAfi);
+int cli_PorIDprintclie(clientes* pArray, int len, afiches * pArrayAfi, int limiteAfi, int *devID);
 #endif // CLIENTES_H_INCLUDED

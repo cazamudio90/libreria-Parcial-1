@@ -49,7 +49,7 @@ int addAfiches (afiches* pArray,int limite, int id ,int *idMostrarAfiches)
 				utn_getNombre( bufferZona, 51, "Ingresar zona\n","No es una zona valido\n", 3) == 0)
 			{
 				pArray[i].idAfiches = getNextId();
-				*idMostrarAfiches = i;
+				*idMostrarAfiches = pArray[i].idAfiches;
 				pArray[i].cantidadAfiches = cantidadAfiches;
 				strncpy(pArray[i].nombreDeAfiche, bufferNombreAfiche, 51);
 				strncpy(pArray[i].zona, bufferZona, 15);

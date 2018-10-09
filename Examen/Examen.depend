@@ -56,7 +56,7 @@
 	"clientes.h"
 	"afiches.h"
 
-1539047844 source:c:\users\usuario\desktop\libreria-parcial-1\examen\afiches.c
+1539051125 source:c:\users\usuario\desktop\libreria-parcial-1\examen\afiches.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -65,13 +65,13 @@
 	"clientes.h"
 	"afiches.h"
 
-1539044886 c:\users\usuario\desktop\libreria-parcial-1\examen\utn.h
+1539050005 c:\users\usuario\desktop\libreria-parcial-1\examen\utn.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 
-1539043330 c:\users\usuario\desktop\libreria-parcial-1\examen\clientes.h
+1539052660 c:\users\usuario\desktop\libreria-parcial-1\examen\clientes.h
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -79,25 +79,7 @@
 	"afiches.h"
 	"utn.h"
 
-1539037319 c:\users\usuario\desktop\libreria-parcial-1\examen\afiches.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<ctype.h>
-	"utn.h"
-	"clientes.h"
-	"afiches.h"
-
-1539047540 source:c:\users\usuario\desktop\libreria-parcial-1\examen\clientes.c
-	<stdio.h>
-	<string.h>
-	<stdlib.h>
-	<ctype.h>
-	"utn.h"
-	"clientes.h"
-	"afiches.h"
-
-1539037319 source:c:\users\usuario\desktop\libreria-parcial-1\examen\main.c
+1539050005 c:\users\usuario\desktop\libreria-parcial-1\examen\afiches.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -106,9 +88,29 @@
 	"clientes.h"
 	"afiches.h"
 
-1539045183 source:c:\users\usuario\desktop\libreria-parcial-1\examen\utn.c
+1539052959 source:c:\users\usuario\desktop\libreria-parcial-1\examen\clientes.c
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+
+1539050005 source:c:\users\usuario\desktop\libreria-parcial-1\examen\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+
+1539050005 source:c:\users\usuario\desktop\libreria-parcial-1\examen\utn.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1539052689 source:c:\users\usuario\desktop\libreria-parcial-1\examen\informes.c
 

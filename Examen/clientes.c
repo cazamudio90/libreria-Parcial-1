@@ -126,6 +126,49 @@ int cli_borrarCliente(clientes* pArray, int len, int id)
 	}
   return retorno;
 }
+/** \brief funcion que recibe 2 arrays e imprime la informacion del cliente
+*\param pArray array de clientes que se recorre
+*\param len limite de pArray
+*\param pArrayAfi array de afiches que se recorre
+*\param limiteAfi limite de pArrayAfi
+**/
+int cli_PorIDprintclie(clientes* pArray, int len, afiches * pArrayAfi, int limiteAfi, int *devID)
+{
+    int retorno = -1;
+    int i,j,auxIdCliente;
+    int bufferIdVenta;
+      if (pArray != NULL && len > 0)
+      {
+			if(utn_getEntero(&bufferIdVenta, 10, "Ingrese id de venta \n","No es un id valido \n", 3) == 0 &&
+                pArrayAfi[bufferIdVenta].isEmpty == 1 )
+             {
+                 for (i = 0; i< limiteAfi; i++)
+                 {
+                    if (pArrayAfi[i].idAfiches == bufferIdVenta)
+                    {
+                       auxIdCliente = pArrayAfi[i].idCliente;
+                       break;
+
+                    }
+                 }
+                        for (j = 0; j< len; j++)
+                        {
+                            if (pArray[j].idClientes == auxIdCliente)
+                            {
+                                printf("Id %d\n", pArray[j].idClientes);
+                                printf("Nombre %s\n", pArray[j].nombre);
+                                printf("Apellido  %s\n", pArray[j].apellidos);
+                                printf("Cuit %s\n", pArray[j].cuit);
+                                printf("---------------------------------\n");
+                                *devID = bufferIdVenta;
+                                retorno = 0;
+                                break;
+                            }
+                        }
+             }
+      }
+    return retorno;
+}
 int printClientesAfiches(clientes* pArray, int limite, afiches* pArrayAfi, int limiteAfi)
 {
    int i;
@@ -230,7 +273,7 @@ int mostarMenu(clientes * pArray, int limite,afiches* pArrayAfic, int limiteAfi)
             case 6:
 //            __fpurge(stdin);
             printAfiches(pArrayAfic, limiteAfi);
-            if(afic_PorIDprintAfiches(pArrayAfic, limiteAfi, &idVentaprint) == 0)
+            if(cli_PorIDprintclie( pArray, limite, pArrayAfic, limiteAfi, &idVentaprint)==0)
             {
                 printf("Desea cambiar el estado de la venta Y/N\n");
                 scanf("%c", &resp2);
