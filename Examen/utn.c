@@ -7,7 +7,7 @@ int getString(char* pBuffer,int limite){
     char bufferString[4096];
     int retorno =-1;
     if (pBuffer != NULL && limite >0){
-        __fpurge(stdin);
+//        __fpurge(stdin);
         fgets(bufferString,sizeof(bufferString),stdin);
         if (bufferString[strlen(bufferString)-1]=='\n'){
             bufferString[strlen(bufferString)-1]='\0';
@@ -19,14 +19,61 @@ int getString(char* pBuffer,int limite){
     }
     return retorno;
 }
+int isValidSoloNumeros(char *pBuffer, int limite)
+{
+    int retorno = 0;
+    int i;
+    if( pBuffer != NULL && limite > 0 && strlen(pBuffer) == 13 &&
+            pBuffer[2] == '-' && pBuffer[11] == '-')
+    {
+        retorno = 1;
+        for(i=0; i < limite && pBuffer[i] != '\0'; i++)
+        {
+            if((pBuffer[i] < '0' || pBuffer[i] > '9') && i!=2 && i!=11)
+            {
+                retorno = 0;
+                break;
+            }
+        }
+    }
+    return retorno;
+}
+int utn_getNumeros(   char *pEntero, int limite, char *mensaje, char *mensajeError, int reintentos)
+{
+    int retorno=-1;
+    char buffer[4096];
+    if( pEntero != NULL && limite > 0 && mensaje != NULL &&
+            mensajeError != NULL && reintentos>=0)
+    {
+        do
+        {
+            reintentos--;
+            printf("\n%s", mensaje);
+            if( getString(buffer, limite) == 0 &&
+                isValidSoloNumeros(buffer, limite))
+            {
+                strncpy(pEntero, buffer, limite);
+                retorno = 0;
+                break;
+            }
+            else
+            {
+                printf("\n%s", mensajeError);
+            }
+        }
+        while(reintentos>=0);
+    }
+    return retorno;
+}
 int utn_getLetrasYNumeros(char* pBuffer,int limite,char* msj){
     int retorno=-1;
     char aux[limite];
     printf("%s",msj);
-    if (pBuffer!=NULL&&limite>0&&getString(aux,limite)==0){
+    if (pBuffer!=NULL&&limite>0&&getString(aux,limite)==0)
+        {
             retorno=0;
             strncpy(pBuffer,aux,limite);
-}
+        }
     return retorno;
 }
 /**

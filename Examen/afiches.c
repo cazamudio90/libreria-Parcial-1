@@ -18,6 +18,17 @@ int initAfiches(afiches* pArray, int limite)
 	}
 	return retorno;
 }
+/**
+* \brief    Se utiliza esta funcion para obtener un nuevo id
+*           declarando una variable static para el id y suma 1 al anterior
+* \return devuelve un id nuevo
+*/
+static int getNextId()
+{
+    static int ultimoId=-1;
+    ultimoId++;
+    return ultimoId;
+}
 int addAfiches (afiches* pArray,int limite, int id ,int *idMostrarAfiches)
 {
 	int retorno = -1;
@@ -26,7 +37,7 @@ int addAfiches (afiches* pArray,int limite, int id ,int *idMostrarAfiches)
 	int cantidadAfiches;
 	char bufferNombreAfiche[51];
 	char bufferZona[51];
-    __fpurge(stdin);
+//    __fpurge(stdin);
 	if(pArray != NULL && limite > 0)
 	{
 		for (i = 0; i<limite; i++ )
@@ -37,11 +48,12 @@ int addAfiches (afiches* pArray,int limite, int id ,int *idMostrarAfiches)
 				utn_getNombre( bufferNombreAfiche, 51, "Ingresar nombre de afiche\n","No es un nombre valido\n", 3) == 0 &&
 				utn_getNombre( bufferZona, 51, "Ingresar zona\n","No es una zona valido\n", 3) == 0)
 			{
-				pArray[i].idAfiches = i;
+				pArray[i].idAfiches = getNextId();
 				*idMostrarAfiches = i;
 				pArray[i].cantidadAfiches = cantidadAfiches;
 				strncpy(pArray[i].nombreDeAfiche, bufferNombreAfiche, 51);
 				strncpy(pArray[i].zona, bufferZona, 15);
+				strncpy(pArray[i].estado, "a cobrar", 51);
 				pArray[i].idCliente = id;
 				pArray[i].isEmpty =  1;
 				retorno = 0;
@@ -64,12 +76,12 @@ void printAfiches(afiches* pArray, int len)
 		{
 			if(pArray[i].isEmpty == 1)
             {
-                printf("Id %d\n", pArray[i].idAfiches);
+                printf("Id de afiche %d\n", pArray[i].idAfiches);
                 printf("cantidad de afiches %d\n", pArray[i].cantidadAfiches);
                 printf("nombre de afiche  %s\n", pArray[i].nombreDeAfiche);
                 printf("zona %s\n", pArray[i].zona);
                 printf("estado %s\n", pArray[i].estado);
-                printf("Sector %d\n", pArray[i].idCliente);
+                printf("id de Cliente %d\n", pArray[i].idCliente);
                 printf("---------------------------------\n");
             }
         }
@@ -114,7 +126,6 @@ int afi_modificarAfiches(afiches* pArray, int len, int id)
         {
             pArray[id].cantidadAfiches = bufferCantidadAfiches;
             strncpy(pArray[id].zona, bufferZona, 51);
-            strncpy(pArray[id].estado,"No cobrado", 51);
             printf("cliente modicado\n");
             retorno = 0;
         }else

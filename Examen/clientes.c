@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdio_ext.h>
+//#include <stdio_ext.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -22,14 +22,18 @@ int initClientes(clientes* pArray, int limite)
 	}
 	return retorno;
 }
-/*
-nt idClientes;
-    char nombre[51];
-    char apellidos[51];
-    char cuit[15];
-    int isEmpty;
-
+/**
+* \brief    Se utiliza esta funcion para obtener un nuevo id
+*           declarando una variable static para el id y suma 1 al anterior
+* \return devuelve un id nuevo
 */
+static int getNextId()
+{
+    static int ultimoId=-1;
+    ultimoId++;
+    return ultimoId;
+}
+
 int addClientes (clientes* pArray,int limite, int* id)
 {
 	int retorno = -1;
@@ -37,7 +41,7 @@ int addClientes (clientes* pArray,int limite, int* id)
 	char bufferNombre[51];
 	char bufferApellido[51];
 	char bufferCuit[15];
-    __fpurge(stdin);
+//    __fpurge(stdin);
 	if(pArray != NULL && limite > 0)
 	{
 		for (i = 0; i<limite; i++ )
@@ -45,9 +49,9 @@ int addClientes (clientes* pArray,int limite, int* id)
 			if (pArray[i].isEmpty == 0 &&
 				utn_getNombre( bufferNombre, 51, "Ingresar nombre de cliente\n","No es un nombre valido\n", 3) == 0 &&
 				utn_getNombre( bufferApellido, 51, "Ingresar apellido de cliente\n","No es un apellido valido\n", 3) == 0 &&
-				utn_getLetrasYNumeros(bufferCuit, 51,"Ingresar cuit de cliente\n") == 0)
+				utn_getNumeros(bufferCuit, 15,"Ingresar cuit de cliente\n", "No es un cuit valido", 3) == 0)
 			{
-				pArray[i].idClientes = i;
+				pArray[i].idClientes = getNextId();
 				*id = pArray[i].idClientes;
 				strncpy(pArray[i].nombre, bufferNombre, 51);
 				strncpy(pArray[i].apellidos, bufferApellido, 51);
@@ -75,7 +79,7 @@ int cli_modificarCliente(clientes* pArray, int len, int id)
         if (pArray[id].isEmpty == 1 &&
             utn_getNombre(bufferNombre, 51, "Modifique Nombre\n", "No es un nombre valido\n", 2)==0 &&
             utn_getNombre( bufferApellido, 51, "Modifique apellido del cliente\n","No es un apellido valido\n", 3) == 0 &&
-            utn_getLetrasYNumeros(bufferCuit, 15,"modificar cuit de cliente\n") == 0)
+            utn_getNumeros(bufferCuit, 51,"Ingresar cuit de cliente\n", "No es un cuit valido", 3) == 0)
         {
             strncpy(pArray[id].nombre, bufferNombre, 51);
             strncpy(pArray[id].apellidos, bufferApellido, 51);
@@ -122,24 +126,36 @@ int cli_borrarCliente(clientes* pArray, int len, int id)
 	}
   return retorno;
 }
-int printClientesAfiches(clientes* pArray, int limite)
+int printClientesAfiches(clientes* pArray, int limite, afiches* pArrayAfi, int limiteAfi)
 {
    int i;
+   int j;
    int retorno;
-   int idClintes;
-    if(pArray != NULL && limite > 0)
+   int contadorAfiches = 0;
+    if(pArray != NULL && limite > 0 && pArrayAfi != NULL && limiteAfi > 0)
     {
         for(i= 0; i< limite; i++)
         {
             if(pArray[i].isEmpty == 1)
             {
                 printf("id %d\n", pArray[i].idClientes);
-                printf("id %s\n", pArray[i].nombre);
-                printf("id %s\n", pArray[i].apellidos);
-                printf("id %s\n", pArray[i].cuit);
+                printf("Nombre:  %s\n", pArray[i].nombre);
+                printf("Apellido: %s\n", pArray[i].apellidos);
+                printf("Cuit: %s\n", pArray[i].cuit);
                 retorno = 0;
+                break;
             }
-        }
+          }
+        for (j=0; j< limiteAfi; j++)
+            {
+                if(pArrayAfi[j].isEmpty == 1 && pArrayAfi[j].idCliente == pArray[i].idClientes && strcmp(pArrayAfi[j].estado,"a cobrar")== 0)
+                {
+                    contadorAfiches++;
+                    retorno = 0;
+                }
+            }
+
+        printf("cantidad: %d\n", contadorAfiches);
     }
     return retorno;
 }
@@ -164,7 +180,7 @@ int mostarMenu(clientes * pArray, int limite,afiches* pArrayAfic, int limiteAfi)
         printf("7- imprimir clientes\n");
         printf("8- Salir\n");
 
-        __fpurge(stdin);
+//        __fpurge(stdin);
         scanf("%d", &resp);
         switch(resp)
         {
@@ -175,28 +191,28 @@ int mostarMenu(clientes * pArray, int limite,afiches* pArrayAfic, int limiteAfi)
             }
             break;
             case 2:
-            __fpurge(stdin);
+//            __fpurge(stdin);
             if (utn_getEntero(&modificarCliente, 10, "Ingrese id\n","No es un id valido \n", 3) == 0 &&
                          cli_modificarCliente( pArray, limite, modificarCliente) == 0)
             {
-                printf("Cliente Modificado");
+                printf("Cliente Modificado\n");
             }
             break;
             case 3:
-            __fpurge(stdin);
+//            __fpurge(stdin);
             if (utn_getEntero(&borrarCliente, 10, "Ingrese id\n","No es un id valido \n", 3) == 0 &&
                 cli_borrarCliente(pArray, limite, borrarCliente) == 0)
                 {
-                    printf("cliente Borrado");
+                    printf("cliente Borrado\n");
                     break;
                 }else if (utn_getEntero(&borrarCliente, 10, "Ingrese id\n","No es un id valido \n", 3) == 0 &&
                             cli_borrarCliente(pArray, limite, borrarCliente) == 1)
                             {
-                                printf("No se borro Cliente");
+                                printf("No se borro Cliente\n");
                                 break;
                             }
             case 4:
-            __fpurge(stdin);
+//            __fpurge(stdin);
             if(utn_getEntero(&idVenta, 10, "Ingrese id de cliente\n","No es un id valido \n", 3) == 0 &&
                 pArray[idVenta].isEmpty == 1 && addAfiches(pArrayAfic, limiteAfi, idVenta, &idMostrarAfiches) == 0)
                 {
@@ -210,8 +226,9 @@ int mostarMenu(clientes * pArray, int limite,afiches* pArrayAfic, int limiteAfi)
                 {
                     printf("Venta modificada");
                 }
+                break;
             case 6:
-            __fpurge(stdin);
+//            __fpurge(stdin);
             printAfiches(pArrayAfic, limiteAfi);
             if(afic_PorIDprintAfiches(pArrayAfic, limiteAfi, &idVentaprint) == 0)
             {
@@ -220,7 +237,7 @@ int mostarMenu(clientes * pArray, int limite,afiches* pArrayAfic, int limiteAfi)
                 if (resp2 == 'Y')
                 {
                     strncpy(pArrayAfic[idVentaprint].estado,"cobrada" ,51);
-                    printf("Estado : Cobrada\n");
+                    printf("Estado :%s\n", pArrayAfic[idVentaprint].estado);
                 }
             }else
             {
@@ -228,7 +245,7 @@ int mostarMenu(clientes * pArray, int limite,afiches* pArrayAfic, int limiteAfi)
             }
             break;
             case 7:
-             printClientesAfiches(pArray, limite);
+             printClientesAfiches(pArray, limite, pArrayAfic, limiteAfi);
             break;
             case 8:
             printf("salio");

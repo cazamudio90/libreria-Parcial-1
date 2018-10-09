@@ -10,4 +10,6 @@ int utn_isValidNombre(char* pBuffer,int limite);
 int isValidEntero(char *pBuffer, int limite);
 int utn_getEntero(  int *pEntero, int limite, char *mensaje,char *mensajeError, int reintentos);
 int utn_getString(char* pBuffer, int limite);
+int isValidSoloNumeros(char *pArray, int limite);
+int utn_getNumeros(   int *pEntero, int limite, char *mensaje, char *mensajeError, int reintentos);
 #endif // UTN_H_INCLUDED
