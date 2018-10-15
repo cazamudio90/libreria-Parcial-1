@@ -5,6 +5,24 @@
 #include "utn.h"
 #include "clientes.h"
 #include "afiches.h"
+
+/**
+* \brief    Se utiliza esta funcion para obtener un nuevo id
+*           declarando una variable static para el id y suma 1 al anterior
+* \return devuelve un id nuevo
+*/
+static int getNextId()
+{
+    static int ultimoId=-1;
+    ultimoId++;
+    return ultimoId;
+}
+
+/** \brief inicializa el array en 0 para verificar que esten vacios
+* \param pArray cadenar a recorrer
+* \param limite es el limite de la cadena
+* \return 0 si inicializa -1 si no
+*/
 int initAfiches(afiches* pArray, int limite)
 {
 	int retorno = -1;
@@ -19,16 +37,60 @@ int initAfiches(afiches* pArray, int limite)
 	return retorno;
 }
 /**
-* \brief    Se utiliza esta funcion para obtener un nuevo id
-*           declarando una variable static para el id y suma 1 al anterior
+* \brief    Se utiliza esta funcion para obtener un lugar vacio
+*
 * \return devuelve un id nuevo
 */
-static int getNextId()
+
+static int buscaLugarVacio(afiches* pArray, int limite)
 {
-    static int ultimoId=-1;
-    ultimoId++;
-    return ultimoId;
+    int retorno = -1;
+    int i;
+    if(pArray != NULL && limite > 0)
+    {
+        for(i=0;i<limite;i++)
+        {
+            if(pArray[i].isEmpty == 0)
+            {
+                retorno = i;
+                break;
+            }
+        }
+    }
+    return retorno;
 }
+
+/**
+*
+*
+*
+**/
+int afiches_ingresoForzado(afiches* pArray, int limite, int cantidadAfi, char* nombreArchivo, char* zona, int idCliente, char * estado)
+{
+    int retorno = -1;
+    int indice;
+    indice = buscaLugarVacio(pArray,limite);
+    if( pArray != NULL && limite > 0 && cantidadAfi >0 && nombreArchivo != NULL && zona != NULL && idCliente >= 0)
+    {
+        pArray[indice].idAfiches = getNextId();
+        pArray[indice].cantidadAfiches = cantidadAfi;
+        strncpy(pArray[indice].nombreDeAfiche, nombreArchivo, 51);
+        strncpy(pArray[indice].zona, zona, 51);
+        pArray[indice].idCliente = idCliente;
+        strncpy(pArray[indice].estado, estado, 51);
+        pArray[indice].isEmpty = 1;
+        retorno = 0;
+    }
+    return retorno;
+
+}
+
+/** \brief funcion para agregar afiche
+* \param pArray cadenar a recorrer
+*\param limite es el limite de la cadena
+*\param id te devuelve el id del cliente agregado
+*\return si agrega un afiche retorno 0 sino -1
+*/
 int addAfiches (afiches* pArray,int limite, int id ,int *idMostrarAfiches)
 {
 	int retorno = -1;
@@ -87,6 +149,37 @@ void printAfiches(afiches* pArray, int len)
         }
       }
 }
+/**
+* \brief    Toma la cadena e imprime lo que tenga guardado pasando un id
+* \param pArray Recibe el array ingresado
+* \param limite Es el tamano maximo del string
+*/
+void printAfichesPorID(afiches* pArray, int len, int idAfiches)
+{
+      if (pArray != NULL && len > 0)
+      {
+      	for (int i =0; i< len; i++ )
+		{
+			if(pArray[i].isEmpty == 1 && pArray[i].idAfiches == idAfiches)
+            {
+                printf("Id de afiche %d\n", pArray[i].idAfiches);
+                printf("cantidad de afiches %d\n", pArray[i].cantidadAfiches);
+                printf("nombre de afiche  %s\n", pArray[i].nombreDeAfiche);
+                printf("zona %s\n", pArray[i].zona);
+                printf("estado %s\n", pArray[i].estado);
+                printf("id de Cliente %d\n", pArray[i].idCliente);
+                printf("---------------------------------\n");
+            }
+        }
+      }
+}
+/**
+* \brief    imprime por id
+* \param pArray Recibe el array ingresado
+* \param len Es el tamano maximo del string
+*\param devID devuelve el id del afiche
+*\param retorna 0 si esta bien sino -1
+*/
 int afic_PorIDprintAfiches(afiches* pArray, int len, int *devID)
 {
     int retorno = -1;
@@ -110,7 +203,10 @@ int afic_PorIDprintAfiches(afiches* pArray, int len, int *devID)
     return retorno;
 }
 /**
-* \brief    Toma la cadena y evalua si es un nombre
+* \brief    funcion para modificar afiches
+* \param pArray Recibe el array ingresado
+* \param len Es el tamano maximo del string
+*\param id que se le pasa para modificar
 * \return En caso de exito retorna 0, si no -1
 */
 int afi_modificarAfiches(afiches* pArray, int len, int id)
@@ -135,5 +231,30 @@ int afi_modificarAfiches(afiches* pArray, int len, int id)
     }
 return retorno;
 }
-
+/**
+* \brief    Se utiliza esta funcion para encontrar un venta a través de un id de cliente,
+*           recorriendo el array y comparando los id
+* \param arrayVentas Es el array que se recorre
+* \param lenVentas Es el limite de ventas que puede guardar el array
+* \param idCliente Es el id con que se compara cada idCliente del array
+* \return   retorna la direccion de la struct del venta donde se encontro el id,
+*           si no el retorno es NULL.
+*/
+afiches* afi_getByIdCliente(afiches* pArrayAfi, int limiteAfi, int idCliente)
+{
+    afiches * retorno = NULL;
+    int i;
+    if(pArrayAfi != NULL && limiteAfi > 0)
+    {
+        for(i=0;i<limiteAfi;i++)
+        {
+            if(pArrayAfi[i].isEmpty==1 && pArrayAfi[i].idCliente == idCliente)
+            {
+                retorno = &pArrayAfi[i];
+                break;
+            }
+        }
+    }
+    return retorno;
+}
 

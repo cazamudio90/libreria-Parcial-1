@@ -19,6 +19,8 @@ int initClientes(clientes* pArray, int limite);
 int addClientes (clientes* pArray,int limite, int* id);
 int mostarMenu(clientes * pArray, int limite, afiches* pArrayAfic, int limiteAfi);
 int cli_modificarCliente(clientes* pArray, int len, int id);
+int cliente_mostrar(clientes* pArray, int limite, int idCliente);
 int printClientesAfiches(clientes* pArray, int limite, afiches* pArrayAfi, int limiteAfi);
 int cli_PorIDprintclie(clientes* pArray, int len, afiches * pArrayAfi, int limiteAfi, int *devID);
+int cliente_ingresoForzado(clientes* pArray, int limite, char *nombre, char *apellidos, char *cuit);
 #endif // CLIENTES_H_INCLUDED

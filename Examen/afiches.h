@@ -22,5 +22,8 @@ int initAfiches(afiches* pArray, int limite);
 void printAfiches(afiches* pArray, int len);
 int afi_modificarAfiches(afiches* pArray, int len, int id);
 int afic_PorIDprintAfiches(afiches* pArray, int len, int *devID);
+afiches* afi_getByIdCliente(afiches* pArrayAfi, int limiteAfi, int idCliente);
+int afiches_ingresoForzado(afiches* pArray, int limite, int cantidadAfi, char* nombreArchivo, char* zona, int idCliente, char * estado);
+void printAfichesPorID(afiches* pArray, int len, int idAfiches);
 
 #endif // AFICHES_H_INCLUDED

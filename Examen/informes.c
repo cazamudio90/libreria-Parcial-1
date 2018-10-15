@@ -1,64 +1,387 @@
-/*int informes_ordenarByNombre(empleadoDes* pBuffer,int limite,int upOrDonw)
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "utn.h"
+#include "clientes.h"
+#include "afiches.h"
+
+int informar_clienteConMasVentas(afiches* arrayAfi, int limiteAfi, clientes* pArray, int limite, int flag)
 {
-  int i, j;
-  int auxId;
-  char auxNombre[50];
-  char auxLastName[50];
-  int auxSector;
-  float auxSalario;
-  if (pBuffer != NULL && limite > 0 && (upOrDonw == 0 || upOrDonw == 1))
+    int retorno = -1;
+    int i, j, auxID;
+    int auxVentasPorClienteAcobrar[limite];
+    int auxVentasPorClienteCobradas[limite];
+    int menorCantidadAcobrar;
+    int menorCantidadCobradas;
+    int contadorDeVentasACobrar;
+    int contadorDeVentasCobradas;
+    if(arrayAfi != NULL && limiteAfi >0 && pArray != NULL && limite > 0 && (flag == 0 || flag == 1))
     {
-        for(i = 0; i < limite; i++)
+        for(i=0; i< limite; i++)
         {
-          j = i + 1;
-                fflush(stdin);
-                if(pBuffer[i].isEmpty == 1&& pBuffer[j].isEmpty == 1 && upOrDonw == 1 && strcmp(pBuffer[i].lastName,pBuffer[j].lastName) >0
-                   || (strcmp(pBuffer[i].lastName,pBuffer[j].lastName) ==0 && pBuffer[i].sector > pBuffer[j].sector))
+            if(pArray[i].isEmpty == 1)
+            {
+                contadorDeVentasACobrar = 0;
+                contadorDeVentasCobradas = 0;
+                for(j=0; j < limiteAfi; j++)
                 {
-                    auxId = pBuffer[j].id;
-                    pBuffer[j].id = pBuffer[i].id;
-                    pBuffer[i].id = auxId;
-
-                    strncpy(auxLastName, pBuffer[j].lastName, 50);
-                    strncpy(pBuffer[j].lastName,pBuffer[i].lastName, 50);
-                    strncpy(pBuffer[i].lastName,auxLastName, 50);
-
-                    strncpy(auxNombre, pBuffer[j].name, 50);
-                    strncpy(pBuffer[j].name,pBuffer[i].name, 50);
-                    strncpy(pBuffer[i].name,auxNombre, 50);
-
-                    auxSalario = pBuffer[j].salary;
-                    pBuffer[j].salary = pBuffer[i].salary;
-                    pBuffer[i].salary = auxSalario;
-
-                    auxSector = pBuffer[j].sector;
-                    pBuffer[j].sector = pBuffer[i].sector;
-                    pBuffer[i].sector = auxSector;
-                }else if(pBuffer[i].isEmpty == 1&& pBuffer[j].isEmpty == 1 && upOrDonw == 0 && strcmp(pBuffer[i].lastName,pBuffer[j].lastName) <0
-                         || strcmp(pBuffer[i].lastName,pBuffer[j].lastName) ==0 && pBuffer[i].sector < pBuffer[j].sector)
-                {
-                    auxId = pBuffer[j].id;
-                    pBuffer[j].id = pBuffer[i].id;
-                    pBuffer[i].id = auxId;
-
-                    strncpy(auxLastName, pBuffer[j].lastName, 50);
-                    strncpy(pBuffer[i+1].lastName,pBuffer[i].lastName, 50);
-                    strncpy(pBuffer[i].lastName,auxLastName, 50);
-
-                    strncpy(auxNombre, pBuffer[j].name, 50);
-                    strncpy(pBuffer[i+1].name,pBuffer[i].name, 50);
-                    strncpy(pBuffer[i].name,auxNombre, 50);
-
-                    auxSalario = pBuffer[j].salary;
-                    pBuffer[j].salary = pBuffer[i].salary;
-                    pBuffer[i].salary = auxSalario;
-
-                    auxSector = pBuffer[j].sector;
-                    pBuffer[j].sector = pBuffer[i].sector;
-                    pBuffer[i].sector = auxSector;
+                    if( flag == 0 && arrayAfi[j].isEmpty == 1 && arrayAfi[j].idCliente == pArray[i].idClientes &&
+                        strcmp(arrayAfi[j].estado, "a cobrar") == 0)
+                    {
+                        contadorDeVentasACobrar++;
+                    }else if ( flag == 1 && arrayAfi[j].isEmpty == 1 && arrayAfi[j].idCliente == pArray[i].idClientes &&
+                                strcmp(arrayAfi[j].estado,"cobrada")== 0)
+                    {
+                        contadorDeVentasCobradas++;
+                    }
                 }
+                auxVentasPorClienteAcobrar[i] = contadorDeVentasACobrar;
+                auxVentasPorClienteCobradas[i] = contadorDeVentasCobradas;
+                if ((auxVentasPorClienteAcobrar[i] < menorCantidadAcobrar || i == 0) && flag ==0 )
+                {
+                    menorCantidadAcobrar = auxVentasPorClienteAcobrar[i];
+                    auxID = pArray[i].idClientes;
+                }else if ((auxVentasPorClienteCobradas[i] < menorCantidadCobradas || i == 0) && flag ==1)
+                {
+                    menorCantidadCobradas = auxVentasPorClienteCobradas[i];
+                    auxID = pArray[i].idClientes;
+                }
+            }
         }
+        for (i=0; i< limite; i++)
+        {
+            if (pArray[i].idClientes == auxID)
+            {
+                cliente_mostrar(pArray, limite, auxID);
+                break;
+            }
+
+        }
+    retorno = 0;
     }
-    return 1;
+    return retorno;
 }
-*/
+
+int informar_clientesConMenosVentas(afiches* pArrayAfic, int limiteAfic, clientes * pArray, int limite)
+{
+    int retorno = -1;
+    int i,j,auxID;
+    int contadorDeVentas;
+    int clienteConMenosVentas;
+    int clientesVentas[limite];
+    if (pArrayAfic != NULL && limiteAfic >0 && pArray != NULL && limite > 0)
+    {
+        for (i=0 ; i < limite; i++ )
+        {
+            contadorDeVentas = 0;
+            if (pArray[i].isEmpty == 1)
+            {
+                 for(j=0; j < limiteAfic; j++)
+                 {
+                    if (pArrayAfic[j].isEmpty == 1 && pArrayAfic[j].idCliente == pArray[i].idClientes)
+                    {
+                        contadorDeVentas++;
+                    }
+                 }
+                 clientesVentas[i] = contadorDeVentas;
+                 if(clientesVentas[i] < clienteConMenosVentas || i == 0)
+                 {
+                     clienteConMenosVentas = clientesVentas[i];
+                     auxID = pArray[i].idClientes;
+                 }
+            }
+
+         }
+         for (i=0; i< limite; i++)
+         {
+             if (pArray[i].idClientes == auxID)
+             {
+                 cliente_mostrar(pArray,limite,auxID);
+                 break;
+             }
+         }
+        retorno = 0;
+    }
+
+
+    return retorno;
+}
+int informar_zonaConMasAfiches(afiches *pArrayAfic, int limiteAfic)
+{
+    int retorno = -1;
+    int i,j;
+    int contadorCaba, zonaCaba;
+    int contadorZonaSur, zonaSur = 0;
+    int contadorZonaOeste, zonaOeste = 0;
+    int zonaConMasAfichesCaba[limiteAfic];
+    int zonaConMasAfichesSur[limiteAfic];
+    int zonaConMasAfichesOeste[limiteAfic];
+    if(pArrayAfic != NULL && limiteAfic > 0)
+    {
+        for (i=0; i< limiteAfic; i++)
+        {
+            if (pArrayAfic[i].isEmpty == 1)
+            {
+                contadorCaba = 0;
+                contadorZonaSur = 0;
+                contadorZonaOeste = 0;
+                for (j = 0; j< limiteAfic; j++)
+                {
+                    if( pArrayAfic[j].isEmpty == 1 && strcmp(pArrayAfic[j].zona, "CABA") == 0 )
+                    {
+                        contadorCaba = contadorCaba + pArrayAfic[j].cantidadAfiches;
+                    }else if (pArrayAfic[j].isEmpty == 1 && strcmp(pArrayAfic[j].zona, "ZONA SUR") == 0 )
+                    {
+                        contadorZonaSur = contadorZonaSur + pArrayAfic[j].cantidadAfiches;
+                    }else if (pArrayAfic[j].isEmpty == 1 && strcmp(pArrayAfic[j].zona, "ZONA OESTE") == 0 )
+                    {
+                        contadorZonaOeste = contadorZonaOeste + pArrayAfic[j].cantidadAfiches;
+                    }
+                }
+                zonaConMasAfichesCaba[i] = contadorCaba;
+                zonaConMasAfichesSur[i] = contadorZonaSur;
+                zonaConMasAfichesOeste[i] = contadorZonaOeste;
+                if (zonaConMasAfichesCaba[i] > zonaCaba || i==0)
+                {
+                    zonaCaba = zonaConMasAfichesCaba[i];
+                }else if (zonaConMasAfichesSur[i] > zonaSur || i == 0)
+                {
+                    zonaSur = zonaConMasAfichesSur[i];
+                }else if (zonaConMasAfichesOeste[i] > zonaOeste || i== 0)
+                {
+                    zonaOeste = zonaConMasAfichesOeste[i];
+                }
+            }
+        }
+        if (zonaCaba > zonaSur && zonaCaba > zonaOeste)
+            {
+                printf("La zona con mas afiches: CABA\n");
+            }else if (zonaSur > zonaCaba && zonaSur > zonaOeste)
+            {
+                printf("La zona con mas afiches: ZONA SUR\n");
+            }else if (zonaOeste > zonaCaba && zonaOeste > zonaSur)
+            {
+                printf("La zona con mas afiches: ZONA Oeste\n");
+            }
+        retorno = 0;
+    }
+    return retorno;
+}
+int informar_clienteConMenosAfiches(afiches * pArrayAfic, int limiteAfic, clientes * pArray, int limite)
+{
+    int retorno = -1;
+    int i,j, auxID;
+    int acumuladorDeAfiches;
+    int clienteConMasAfiches[limite];
+    int clientesConMenosAfiches;
+    if (pArrayAfic != NULL && limiteAfic > 0 && pArray != NULL && limite > 0)
+    {
+        for (i= 0; i< limite; i++)
+        {
+            if(pArray[i].isEmpty == 1)
+            {
+                acumuladorDeAfiches = 0;
+                for(j=0; j< limiteAfic; j++)
+                {
+                    if(pArrayAfic[j].isEmpty == 1 && pArrayAfic[j].idCliente == pArray[i].idClientes)
+                    {
+                        acumuladorDeAfiches = acumuladorDeAfiches + pArrayAfic[j].cantidadAfiches;
+                    }
+                }
+                clienteConMasAfiches[i] = acumuladorDeAfiches;
+            }
+            if((clienteConMasAfiches[i] < clientesConMenosAfiches || i == 0) && pArray[i].isEmpty==1)
+            {
+                clientesConMenosAfiches = clienteConMasAfiches[i];
+                auxID = pArray[i].idClientes;
+            }
+        }
+        for(i= 0; i < limite; i++)
+        {
+            if(pArray[i].idClientes == auxID)
+            {
+                cliente_mostrar(pArray, limite, auxID);
+                break;
+            }
+        }
+        retorno = 0;
+    }
+
+    return retorno;
+}
+
+int informar_clienteConMasAfichesAcobrar(afiches * pArrayAfic, int limiteAfic, clientes * pArray, int limite)
+{
+    int retorno = -1;
+    int i,j, auxID;
+    int acumuladorDeAfiches;
+    int clienteConMasAfiches[limite];
+    int clientesConMenosAfiches;
+    if (pArrayAfic != NULL && limiteAfic > 0 && pArray != NULL && limite > 0)
+    {
+        for (i= 0; i< limite; i++)
+        {
+            if(pArray[i].isEmpty == 1)
+            {
+                acumuladorDeAfiches = 0;
+                for(j=0; j< limiteAfic; j++)
+                {
+                    if(pArrayAfic[j].isEmpty == 1 && pArrayAfic[j].idCliente == pArray[i].idClientes && strcmp(pArrayAfic[j].estado,"a cobrar")==0)
+                    {
+                        acumuladorDeAfiches = acumuladorDeAfiches + pArrayAfic[j].cantidadAfiches;
+                    }
+                }
+                clienteConMasAfiches[i] = acumuladorDeAfiches;
+            }
+            if((clienteConMasAfiches[i] > clientesConMenosAfiches || i == 0) && pArray[i].isEmpty==1)
+            {
+                clientesConMenosAfiches = clienteConMasAfiches[i];
+                auxID = pArray[i].idClientes;
+            }
+        }
+        for(i= 0; i < limite; i++)
+        {
+            if(pArray[i].idClientes == auxID)
+            {
+                cliente_mostrar(pArray, limite, auxID);
+                break;
+            }
+        }
+        retorno = 0;
+    }
+    return retorno;
+}
+int informar_cantidadClientesMayores500(clientes* pArray, int limite, afiches* pArrayAfi, int limiteAfi)
+{
+    int retorno = -1;
+    int i, j;
+    int acumuladorAfiches;
+    int arrayMayores500[limite];
+    int contadorMayores500 = 0;
+    if (pArrayAfi != NULL && limiteAfi > 0 && pArray != NULL && limite > 0)
+    {
+        for(i=0; i<limite; i++)
+        {
+            if(pArray[i].isEmpty == 1)
+            {
+                acumuladorAfiches = 0;
+                for(j=0; j< limite; j++)
+                {
+                    if(pArrayAfi[j].isEmpty == 1 && pArrayAfi[j].idCliente == pArray[i].idClientes)
+                    {
+                        acumuladorAfiches = acumuladorAfiches + pArrayAfi[j].cantidadAfiches;
+                    }
+                }
+                arrayMayores500[i] = acumuladorAfiches;
+                if (arrayMayores500[i] > 500)
+                {
+                    contadorMayores500++;
+                }
+            }
+        }
+        printf("cantidad de clientes mayores a 500: %d\n", contadorMayores500);
+        retorno = 0;
+    }
+
+    return retorno;
+}
+int informar_cantidadAfichesPorZona(afiches* pArrayAfic, int limiteAfic)
+{
+    int retorno = -1;
+    int i;
+    int acumuladorCaba = 0;
+    int acumuladorZonaSur = 0;
+    int acumuladorZonaOeste = 0;
+    if(pArrayAfic != NULL && limiteAfic > 0)
+    {
+        for (i = 0; i< limiteAfic; i++)
+        {
+            if (pArrayAfic[i].isEmpty == 1 && strcmp(pArrayAfic[i].zona, "CABA")==0)
+            {
+                acumuladorCaba = acumuladorCaba + pArrayAfic[i].cantidadAfiches;
+            }else if (pArrayAfic[i].isEmpty == 1 && strcmp(pArrayAfic[i].zona, "ZONA SUR")==0)
+            {
+                acumuladorZonaSur = acumuladorZonaSur + pArrayAfic[i].cantidadAfiches;
+            }else if (pArrayAfic[i].isEmpty == 1 && strcmp(pArrayAfic[i].zona, "ZONA OESTE")==0)
+            {
+                acumuladorZonaOeste = acumuladorZonaOeste + pArrayAfic[i].cantidadAfiches;
+            }
+
+        }
+        printf("Cantidad de afiches vendidos en CABA: %d\n", acumuladorCaba);
+        printf("Cantidad de afiches vendidos en ZONA SUR: %d\n", acumuladorZonaSur);
+        printf("Cantidad de afiches vendidos en ZONA OESTE: %d\n", acumuladorZonaOeste);
+    }
+    return retorno;
+}
+int informar_promedioAfichesCliente(clientes * pArray, int limite, afiches*pArrayAfic, int limiteAfic)
+{
+ int retorno = -1;
+ int i,j;
+ int acumuladorAfiches = 0;
+ int contadorClientes = 0;
+ float promedio;
+ if (pArray != NULL && limite >0 && pArrayAfic != NULL && limite > 0)
+ {
+     for(i=0; i< limite; i++)
+     {
+         if(pArray[i].isEmpty == 1)
+         {
+             for(j=0; j< limiteAfic; j++)
+             {
+                if(pArrayAfic[j].isEmpty== 1 && pArray[i].idClientes == pArrayAfic[j].idCliente)
+                {
+                    acumuladorAfiches = acumuladorAfiches + pArrayAfic[j].cantidadAfiches;
+                    contadorClientes++;
+                }
+             }
+         }
+     }
+     if(contadorClientes > 0)
+     {
+         promedio = acumuladorAfiches / contadorClientes;
+         printf("El promedio por clientes de afiches es: %f\n", promedio);
+     }
+ }
+ return retorno;
+}
+int informar_listarVentasPorZona(afiches* pArrayAfic, int limiteAfic)
+{
+    int retorno = -1;
+    int i,j,m;
+    int auxId;
+    if (pArrayAfic != NULL && limiteAfic >0)
+    {
+        printf("CABA\n");
+        printf("-----------------------------------------\n");
+        for(i= 0; i< limiteAfic; i++)
+        {
+            if(pArrayAfic[i].isEmpty == 1 && strcmp(pArrayAfic[i].zona, "CABA")== 0)
+            {
+                auxId = pArrayAfic[i].idAfiches;
+                printAfichesPorID(pArrayAfic, limiteAfic, auxId);
+            }
+        }
+        printf("ZONA SUR\n");
+        printf("-----------------------------------------\n");
+        for (j=0; j< limiteAfic; j++)
+        {
+            if(pArrayAfic[j].isEmpty == 1 && strcmp(pArrayAfic[j].zona,"ZONA SUR")==0)
+            {
+                printAfichesPorID(pArrayAfic,limiteAfic,pArrayAfic[j].idAfiches);
+            }
+        }
+        printf("ZONA OESTE\n");
+        printf("-----------------------------------------\n");
+        for (m=0; m< limiteAfic; m++)
+        {
+            if(pArrayAfic[m].isEmpty == 1 && strcmp(pArrayAfic[m].zona,"ZONA OESTE")==0)
+            {
+                printAfichesPorID(pArrayAfic,limiteAfic,pArrayAfic[m].idAfiches);
+            }
+        }
+        retorno = 0;
+    }
+    return retorno;
+}

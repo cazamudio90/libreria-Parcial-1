@@ -6,8 +6,44 @@
 #include "utn.h"
 #include "clientes.h"
 #include "afiches.h"
-/* brief inicializa el array en 0 para verificar que esten vacios
+#include "informes.h"
+/**
+* \brief    Se utiliza esta funcion para obtener un nuevo id
+*           declarando una variable static para el id y suma 1 al anterior
+* \return devuelve un id vacio
+*/
+static int getNextId()
+{
+    static int ultimoId=-1;
+    ultimoId++;
+    return ultimoId;
+}
+/**
+* \brief    Se utiliza esta funcion para obtener un lugar vacio
 *
+* \return devuelve un id nuevo
+*/
+
+static int buscaLugarVacio(clientes* pArray, int limite)
+{
+    int retorno = -1;
+    int i;
+    if(pArray != NULL && limite > 0)
+    {
+        for(i=0;i<limite;i++)
+        {
+            if(pArray[i].isEmpty == 0)
+            {
+                retorno = i;
+                break;
+            }
+        }
+    }
+    return retorno;
+}
+/** \brief inicializa el array en 0 para verificar que esten vacios
+* \ pArray cadenar a recorrer
+*\ limite es el limite de la cadena
 */
 int initClientes(clientes* pArray, int limite)
 {
@@ -22,18 +58,31 @@ int initClientes(clientes* pArray, int limite)
 	}
 	return retorno;
 }
-/**
-* \brief    Se utiliza esta funcion para obtener un nuevo id
-*           declarando una variable static para el id y suma 1 al anterior
-* \return devuelve un id nuevo
-*/
-static int getNextId()
-{
-    static int ultimoId=-1;
-    ultimoId++;
-    return ultimoId;
-}
 
+int cliente_ingresoForzado(clientes* pArray, int limite, char *nombre, char *apellidos, char *cuit)
+{
+    int retorno = -1;
+    int indice;
+    indice = buscaLugarVacio(pArray,limite);
+    if( pArray != NULL && limite > 0 && nombre != NULL &&
+        apellidos != NULL && cuit != NULL)
+    {
+        strncpy(pArray[indice].nombre, nombre, 51);
+        strncpy(pArray[indice].apellidos, apellidos, 51);
+        strncpy(pArray[indice].cuit, cuit, 15);
+        pArray[indice].idClientes = getNextId();
+        pArray[indice].isEmpty = 1;
+        retorno = 0;
+    }
+    return retorno;
+
+}
+/** \brief funcion para agregar clientes
+* \param pArray cadenar a recorrer
+*\param limite es el limite de la cadena
+*\param id te devuelve el id del cliente agregado
+*\return si agrega un cliente retorno 0 sino -1
+*/
 int addClientes (clientes* pArray,int limite, int* id)
 {
 	int retorno = -1;
@@ -49,7 +98,7 @@ int addClientes (clientes* pArray,int limite, int* id)
 			if (pArray[i].isEmpty == 0 &&
 				utn_getNombre( bufferNombre, 51, "Ingresar nombre de cliente\n","No es un nombre valido\n", 3) == 0 &&
 				utn_getNombre( bufferApellido, 51, "Ingresar apellido de cliente\n","No es un apellido valido\n", 3) == 0 &&
-				utn_getNumeros(bufferCuit, 15,"Ingresar cuit de cliente\n", "No es un cuit valido", 3) == 0)
+				utn_getNumeros( bufferCuit, 15,"Ingresar cuit de cliente\n", "No es un cuit valido", 3) == 0)
 			{
 				pArray[i].idClientes = getNextId();
 				*id = pArray[i].idClientes;
@@ -65,7 +114,10 @@ int addClientes (clientes* pArray,int limite, int* id)
 	return retorno;
 }
 /**
-* \brief    Toma la cadena y evalua si es un nombre
+* \ brief    Toma la cadena y evalua si es un nombre
+* \ pArray   array a recorre
+* \ len    limite del array
+* \ id    toma el id del cliente a modificar
 * \return En caso de exito retorna 0, si no -1
 */
 int cli_modificarCliente(clientes* pArray, int len, int id)
@@ -169,6 +221,40 @@ int cli_PorIDprintclie(clientes* pArray, int len, afiches * pArrayAfi, int limit
       }
     return retorno;
 }
+/**
+* \brief    Se utiliza esta funcion para mostrar todos los datos de los
+*           clientes del array
+* \param arrayClientes Es el array que se recorre
+* \param lenClientes Es el limite de clientes que puede guardar el array
+* \return El retorno es 0 si se mostraron los datos, si no el retorno es -1.
+*/
+int cliente_mostrar(clientes* pArray, int limite, int idCliente)
+{
+    int retorno = -1;
+    int i;
+    if(pArray != NULL && limite > 0 && idCliente >= 0)
+    {
+        for(i=0;i<limite;i++)
+        {
+            if(pArray[i].isEmpty == 1 && pArray[i].idClientes == idCliente)
+            {
+                printf("ID: %d\nNombre: %s\nApellido: %s\nCuit: %s\n",
+                pArray[i].idClientes,pArray[i].nombre, pArray[i].apellidos,
+                pArray[i].cuit );
+            }
+        }
+        retorno = 0;
+    }
+    return retorno;
+}
+/**
+* \brief    imprime los clientes segun el id de venta
+* \param pArray Es el array que se recorre
+* \param limite Es el limite de clientes que puede guardar el array
+* \param pArrayAfi Es el array que se recorre
+* \param limiteAfi Es el limite de clientes que puede guardar el array
+* \return El retorno es 0 si se mostraron los datos, si no el retorno es -1.
+*/
 int printClientesAfiches(clientes* pArray, int limite, afiches* pArrayAfi, int limiteAfi)
 {
    int i;
@@ -181,29 +267,34 @@ int printClientesAfiches(clientes* pArray, int limite, afiches* pArrayAfi, int l
         {
             if(pArray[i].isEmpty == 1)
             {
-                printf("id %d\n", pArray[i].idClientes);
-                printf("Nombre:  %s\n", pArray[i].nombre);
-                printf("Apellido: %s\n", pArray[i].apellidos);
-                printf("Cuit: %s\n", pArray[i].cuit);
-                retorno = 0;
-                break;
-            }
-          }
-        for (j=0; j< limiteAfi; j++)
-            {
-                if(pArrayAfi[j].isEmpty == 1 && pArrayAfi[j].idCliente == pArray[i].idClientes && strcmp(pArrayAfi[j].estado,"a cobrar")== 0)
+             contadorAfiches = 0;
+                 for (j=0; j< limiteAfi; j++)
                 {
-                    contadorAfiches++;
-                    retorno = 0;
-                }
-            }
+                    if(pArrayAfi[j].isEmpty == 1 && pArrayAfi[j].idCliente == pArray[i].idClientes && strcmp(pArrayAfi[j].estado,"a cobrar")== 0)
+                    {
+                        contadorAfiches++;
+                    }
 
-        printf("cantidad: %d\n", contadorAfiches);
+                 }
+                   printf("id %d\n", pArray[i].idClientes);
+                    printf("Nombre:  %s\n", pArray[i].nombre);
+                    printf("Apellido: %s\n", pArray[i].apellidos);
+                    printf("Cuit: %s\n", pArray[i].cuit);
+                    printf("cantidad: %d\n", contadorAfiches);
+            }
+        }
+
+        retorno = 0;
     }
     return retorno;
 }
-/** \brief inicializa el array en 0 para verificar que esten vacios
-*
+/**
+* \brief    funcion de menu
+* \param pArray Es el array que se recorre de clientes
+* \param limite Es el limite de clientes que puede guardar el array
+* \param pArrayAfi Es el array que se recorre de afiches
+* \param limiteAfi Es el limite de afiches que puede guardar el array
+* \return El retorno es 0 si se mostraron los datos, si no el retorno es -1.
 */
 int mostarMenu(clientes * pArray, int limite,afiches* pArrayAfic, int limiteAfi)
 {
@@ -221,7 +312,17 @@ int mostarMenu(clientes * pArray, int limite,afiches* pArrayAfic, int limiteAfi)
         printf("5- Editar ventas\n");
         printf("6- Cobrar ventas\n");
         printf("7- imprimir clientes\n");
-        printf("8- Salir\n");
+        printf("8- cliente con menos ventas a cobrar\n");
+        printf("9- cliente con menos ventas cobradas\n");
+        printf("10- cliente con menos ventas\n");
+        printf("11- Zona con mas afiches vendidos\n");
+        printf("12- Cliente que compro menos afiches\n");
+        printf("13- Cliente con mas afiches a cobrar\n");
+        printf("14- Cliente con mas de 500 afiches\n");
+        printf("15- Cantidad de afiches vendidos por zona\n");
+        printf("16- Cantidad de afiches vendidos promedio por cliente\n");
+        printf("17- Listar ventas ordenadas por zona\n");
+        printf("18- Salir\n");
 
 //        __fpurge(stdin);
         scanf("%d", &resp);
@@ -291,11 +392,44 @@ int mostarMenu(clientes * pArray, int limite,afiches* pArrayAfic, int limiteAfi)
              printClientesAfiches(pArray, limite, pArrayAfic, limiteAfi);
             break;
             case 8:
-            printf("salio");
+            informar_clienteConMasVentas(pArrayAfic,limiteAfi,pArray,limite, 0);
+            break;
+            case 9:
+            informar_clienteConMasVentas(pArrayAfic,limiteAfi,pArray,limite, 1);
+            break;
+            case 10:
+            informar_clientesConMenosVentas(pArrayAfic, limiteAfi, pArray, limite);
+            break;
+            case 11:
+            informar_zonaConMasAfiches(pArrayAfic, limiteAfi);
+            break;
+            case 12:
+            informar_clienteConMenosAfiches(pArrayAfic, limiteAfi, pArray, limite);
+            break;
+            case 13:
+            informar_clienteConMasAfichesAcobrar(pArrayAfic, limiteAfi, pArray, limite);
+            break;
+            case 14:
+            informar_cantidadClientesMayores500(pArray, limite, pArrayAfic, limiteAfi);
+             break;
+            case 15:
+            informar_cantidadAfichesPorZona(pArrayAfic, limiteAfi);
+            break;
+            case 16:
+            informar_promedioAfichesCliente(pArray, limite, pArrayAfic, limiteAfi);
+            break;
+            case 17:
+            informar_listarVentasPorZona(pArrayAfic, limiteAfi);
+            break;
+            case 18:
+            printf("salio\n");
             retorno = 0;
+            break;
+            default:
+            printf("Opcion no Valida");
             break;
       }
 
-    }while(resp != 8);
+    }while(resp != 18);
  return retorno;
 }

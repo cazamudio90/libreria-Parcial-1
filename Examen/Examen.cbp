@@ -31,21 +31,29 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="afiches.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="afiches.h" />
+		<Unit filename="clientes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="clientes.h" />
+		<Unit filename="informes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="informes.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="pantalla.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="pantalla.h" />
 		<Unit filename="utn.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="utn.h" />
 		<Extensions>
 			<code_completion />
-			<envvars />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
