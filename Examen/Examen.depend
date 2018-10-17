@@ -222,7 +222,7 @@
 	"clientes.h"
 	"afiches.h"
 
-1539525710 source:c:\users\usuario\desktop\parcial-1\examen\clientes.c
+1539740958 source:c:\users\usuario\desktop\parcial-1\examen\clientes.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -241,7 +241,7 @@
 	"clientes.h"
 	"afiches.h"
 
-1539525820 source:c:\users\usuario\desktop\parcial-1\examen\informes.c
+1539742525 source:c:\users\usuario\desktop\parcial-1\examen\informes.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -250,7 +250,7 @@
 	"clientes.h"
 	"afiches.h"
 
-1539523813 source:c:\users\usuario\desktop\parcial-1\examen\main.c
+1539740207 source:c:\users\usuario\desktop\parcial-1\examen\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

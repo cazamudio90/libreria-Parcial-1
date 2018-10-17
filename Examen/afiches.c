@@ -38,8 +38,9 @@ int initAfiches(afiches* pArray, int limite)
 }
 /**
 * \brief    Se utiliza esta funcion para obtener un lugar vacio
-*
-* \return devuelve un id nuevo
+* \param pArray array a recorrer
+* \param limite del array
+* \return devuelve indice vacio
 */
 
 static int buscaLugarVacio(afiches* pArray, int limite)
@@ -59,11 +60,15 @@ static int buscaLugarVacio(afiches* pArray, int limite)
     }
     return retorno;
 }
-
 /**
-*
-*
-*
+*\brief funcion para ingresar datos forzados
+*\param pArray de clientes
+*\param limite limite del pArray
+*\param cantidadAfi cantidad de afiches a ingresar
+*\param nombreArchivo array para colocar el nombre del archivo
+*\param zona array para colocar la zona
+*\param idCliente se ingresa el id del cliente segun este guardado en clientes
+*\return retorna 0 si se ingresa el cliente sino -1
 **/
 int afiches_ingresoForzado(afiches* pArray, int limite, int cantidadAfi, char* nombreArchivo, char* zona, int idCliente, char * estado)
 {
@@ -85,10 +90,10 @@ int afiches_ingresoForzado(afiches* pArray, int limite, int cantidadAfi, char* n
 
 }
 
-/** \brief funcion para agregar afiche
+/** \brief funcion para agregar afiches
 * \param pArray cadenar a recorrer
 *\param limite es el limite de la cadena
-*\param id te devuelve el id del cliente agregado
+*\param id te devuelve el id del cliente ingresado
 *\return si agrega un afiche retorno 0 sino -1
 */
 int addAfiches (afiches* pArray,int limite, int id ,int *idMostrarAfiches)
@@ -153,6 +158,7 @@ void printAfiches(afiches* pArray, int len)
 * \brief    Toma la cadena e imprime lo que tenga guardado pasando un id
 * \param pArray Recibe el array ingresado
 * \param limite Es el tamano maximo del string
+* \param idAfiches es el id de la venta a imprimir
 */
 void printAfichesPorID(afiches* pArray, int len, int idAfiches)
 {

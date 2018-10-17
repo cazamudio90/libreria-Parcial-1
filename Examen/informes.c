@@ -5,11 +5,20 @@
 #include "utn.h"
 #include "clientes.h"
 #include "afiches.h"
-
+/*** \brief Funcion que muestra los clientes con la menor
+           cantidad de ventas a cobrar si el flag es 0
+           y si es 1, la cantidad de ventas cobradas
+**\param arrayAfi array de afiches a recorrer
+**\param limiteAfi limite maximo que tiene el arrayAfi
+**\param pArray array de clientes a recorrer
+**\param limite maximo que tiene el pArray
+**\param flag flag utilizado para diferenciar que tipo de ventas se quiere obtener
+**\return retorna 0 si la funcion esta bien sino -1
+***/
 int informar_clienteConMasVentas(afiches* arrayAfi, int limiteAfi, clientes* pArray, int limite, int flag)
 {
     int retorno = -1;
-    int i, j, auxID;
+    int i, j;
     int auxVentasPorClienteAcobrar[limite];
     int auxVentasPorClienteCobradas[limite];
     int menorCantidadAcobrar;
@@ -31,38 +40,47 @@ int informar_clienteConMasVentas(afiches* arrayAfi, int limiteAfi, clientes* pAr
                     {
                         contadorDeVentasACobrar++;
                     }else if ( flag == 1 && arrayAfi[j].isEmpty == 1 && arrayAfi[j].idCliente == pArray[i].idClientes &&
-                                strcmp(arrayAfi[j].estado,"cobrada")== 0)
+                                strcmp(arrayAfi[j].estado, "cobrada")== 0)
                     {
                         contadorDeVentasCobradas++;
                     }
                 }
                 auxVentasPorClienteAcobrar[i] = contadorDeVentasACobrar;
                 auxVentasPorClienteCobradas[i] = contadorDeVentasCobradas;
-                if ((auxVentasPorClienteAcobrar[i] < menorCantidadAcobrar || i == 0) && flag ==0 )
+                if ((auxVentasPorClienteAcobrar[i] < menorCantidadAcobrar || i == 0)
+                    && strcmp(arrayAfi[i].estado, "a cobrar") == 0&& flag ==0 )
                 {
                     menorCantidadAcobrar = auxVentasPorClienteAcobrar[i];
-                    auxID = pArray[i].idClientes;
                 }else if ((auxVentasPorClienteCobradas[i] < menorCantidadCobradas || i == 0) && flag ==1)
                 {
                     menorCantidadCobradas = auxVentasPorClienteCobradas[i];
-                    auxID = pArray[i].idClientes;
                 }
             }
         }
-        for (i=0; i< limite; i++)
+        for(i=0; i < limite; i++)
         {
-            if (pArray[i].idClientes == auxID)
-            {
-                cliente_mostrar(pArray, limite, auxID);
-                break;
-            }
-
+            if( (flag == 0 && pArray[i].isEmpty == 1 && menorCantidadAcobrar == auxVentasPorClienteAcobrar[i])||
+                  (flag == 1 && pArray[i].isEmpty == 1 && menorCantidadCobradas == auxVentasPorClienteCobradas[i]))
+                {
+                    printf("ID : %d \n",pArray[i].idClientes);
+                    printf("Nombre : %s \n",pArray[i].nombre);
+                    printf("apellido : %s \n",pArray[i].apellidos);
+                    printf("Cuit : %s \n",pArray[i].cuit);
+                    printf("---------------------\n");
+                }
         }
-    retorno = 0;
+     retorno = 0;
     }
     return retorno;
 }
-
+/*** \brief Funcion que muestra el clientes con la menor
+           cantidad de ventas
+**\param arrayAfic array de afiches a recorrer
+**\param limiteAfic limite maximo que tiene el arrayAfi
+**\param pArray array de clientes a recorrer
+**\param limite maximo que tiene el pArray
+**\return retorna 0 si la funcion esta bien sino -1
+***/
 int informar_clientesConMenosVentas(afiches* pArrayAfic, int limiteAfic, clientes * pArray, int limite)
 {
     int retorno = -1;
@@ -107,6 +125,11 @@ int informar_clientesConMenosVentas(afiches* pArrayAfic, int limiteAfic, cliente
 
     return retorno;
 }
+/*** \brief Funcion que muestra la zona con mas cantidad de afiches
+**\param arrayAfic array de afiches a recorrer
+**\param limiteAfic limite maximo que tiene el arrayAfic
+**\return retorna 0 si la funcion esta bien sino -1
+***/
 int informar_zonaConMasAfiches(afiches *pArrayAfic, int limiteAfic)
 {
     int retorno = -1;
@@ -168,6 +191,14 @@ int informar_zonaConMasAfiches(afiches *pArrayAfic, int limiteAfic)
     }
     return retorno;
 }
+/*** \brief Funcion que muestra el cliente que compro
+            menos afiches
+**\param arrayAfic array de afiches a recorrer
+**\param limiteAfic limite maximo que tiene el arrayAfic
+**\param pArray array de clientes a recorrer
+**\param limite maximo que tiene el pArray
+**\return retorna 0 si la funcion esta bien sino -1
+***/
 int informar_clienteConMenosAfiches(afiches * pArrayAfic, int limiteAfic, clientes * pArray, int limite)
 {
     int retorno = -1;
@@ -210,7 +241,14 @@ int informar_clienteConMenosAfiches(afiches * pArrayAfic, int limiteAfic, client
 
     return retorno;
 }
-
+/*** \brief Funcion que muestra el cliente con mas
+            afiches a cobrar
+**\param arrayAfi array de afiches a recorrer
+**\param limiteAfi limite maximo que tiene el arrayAfi
+**\param pArray array de clientes a recorrer
+**\param limite maximo que tiene el pArray
+**\return retorna 0 si la funcion esta bien sino -1
+***/
 int informar_clienteConMasAfichesAcobrar(afiches * pArrayAfic, int limiteAfic, clientes * pArray, int limite)
 {
     int retorno = -1;
@@ -252,6 +290,14 @@ int informar_clienteConMasAfichesAcobrar(afiches * pArrayAfic, int limiteAfic, c
     }
     return retorno;
 }
+/*** \brief Funcion que muestra la cantidad de clientes
+            que superan la compra de mas de 500 afiches
+**\param pArrayAfi array de afiches a recorrer
+**\param limiteAfi limite maximo que tiene el arrayAfi
+**\param pArray array de clientes a recorrer
+**\param limite maximo que tiene el pArray
+**\return retorna 0 si la funcion esta bien sino -1
+***/
 int informar_cantidadClientesMayores500(clientes* pArray, int limite, afiches* pArrayAfi, int limiteAfi)
 {
     int retorno = -1;
@@ -280,12 +326,18 @@ int informar_cantidadClientesMayores500(clientes* pArray, int limite, afiches* p
                 }
             }
         }
-        printf("cantidad de clientes mayores a 500: %d\n", contadorMayores500);
+        printf("cantidad de clientes que superan los 500 afiches: %d\n", contadorMayores500);
         retorno = 0;
     }
 
     return retorno;
 }
+/*** \brief Funcion que muestra la cantidad de afiches
+            vendidos por zona
+**\param arrayAfi array de afiches a recorrer
+**\param limiteAfi limite maximo que tiene el arrayAfi
+**\return retorna 0 si la funcion esta bien sino -1
+***/
 int informar_cantidadAfichesPorZona(afiches* pArrayAfic, int limiteAfic)
 {
     int retorno = -1;
@@ -315,6 +367,14 @@ int informar_cantidadAfichesPorZona(afiches* pArrayAfic, int limiteAfic)
     }
     return retorno;
 }
+/*** \brief Funcion que muestra el promedio de afiches
+            vendidos por clientes
+**\param arrayAfic array de afiches a recorrer
+**\param limiteAfic limite maximo que tiene el arrayAfi
+**\param pArray array de clientes a recorrer
+**\param limite maximo que tiene el pArray
+**\return retorna 0 si la funcion esta bien sino -1
+***/
 int informar_promedioAfichesCliente(clientes * pArray, int limite, afiches*pArrayAfic, int limiteAfic)
 {
  int retorno = -1;
@@ -346,6 +406,12 @@ int informar_promedioAfichesCliente(clientes * pArray, int limite, afiches*pArra
  }
  return retorno;
 }
+/*** \brief Funcion que lista las ventas por zona,
+            1° CABA, 2° ZONA SUR, 3° ZONA OESTE
+**\param arrayAfic array de afiches a recorrer
+**\param limiteAfic limite maximo que tiene el arrayAfic
+**\return retorna 0 si la funcion esta bien sino -1
+***/
 int informar_listarVentasPorZona(afiches* pArrayAfic, int limiteAfic)
 {
     int retorno = -1;

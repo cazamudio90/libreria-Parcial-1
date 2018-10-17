@@ -20,9 +20,10 @@ static int getNextId()
 }
 /**
 * \brief    Se utiliza esta funcion para obtener un lugar vacio
-*
+* \param  pArray array a recorrer
+* \param  limite del array a recorrer
 * \return devuelve un id nuevo
-*/
+**/
 
 static int buscaLugarVacio(clientes* pArray, int limite)
 {
@@ -41,10 +42,10 @@ static int buscaLugarVacio(clientes* pArray, int limite)
     }
     return retorno;
 }
-/** \brief inicializa el array en 0 para verificar que esten vacios
-* \ pArray cadenar a recorrer
-*\ limite es el limite de la cadena
-*/
+/** \brief Funcion que inicializa el array en 0 para verificar que esten vacios
+*\param pArray cadena a recorrer
+*\param limite es el limite de la cadena
+**/
 int initClientes(clientes* pArray, int limite)
 {
 	int retorno = -1;
@@ -58,7 +59,15 @@ int initClientes(clientes* pArray, int limite)
 	}
 	return retorno;
 }
-
+/**
+*\brief funcion para ingresar datos forzada
+*\param pArray de clientes
+*\param limite limite del pArray
+*\param nombre array para colocar el nombre
+*\param apellidos array para colocar el apellido
+*\param cuit array para colocar el cuit
+*\return retorna 0 si se ingresa el cliente sino -1
+**/
 int cliente_ingresoForzado(clientes* pArray, int limite, char *nombre, char *apellidos, char *cuit)
 {
     int retorno = -1;
@@ -78,11 +87,11 @@ int cliente_ingresoForzado(clientes* pArray, int limite, char *nombre, char *ape
 
 }
 /** \brief funcion para agregar clientes
-* \param pArray cadenar a recorrer
+*\param pArray cadenar a recorrer
 *\param limite es el limite de la cadena
-*\param id te devuelve el id del cliente agregado
+*\param id te devuelve el id del cliente ingresado
 *\return si agrega un cliente retorno 0 sino -1
-*/
+**/
 int addClientes (clientes* pArray,int limite, int* id)
 {
 	int retorno = -1;
@@ -114,11 +123,11 @@ int addClientes (clientes* pArray,int limite, int* id)
 	return retorno;
 }
 /**
-* \ brief    Toma la cadena y evalua si es un nombre
-* \ pArray   array a recorre
-* \ len    limite del array
-* \ id    toma el id del cliente a modificar
-* \return En caso de exito retorna 0, si no -1
+** \brief    funcion que por id se puede modificar un cliente
+*\param pArray array a recorrer
+*\param len limite del array
+*\param id  toma el id del cliente a modificar
+*\return En caso de exito retorna 0, si no -1
 */
 int cli_modificarCliente(clientes* pArray, int len, int id)
 {
@@ -151,7 +160,8 @@ return retorno;
 * \param pArray Recibe el array ingresado
 * \param id es el numero a buscar
 * \param limite Es el tamano maximo del string
-*/
+* \return retorna 0 si se borro el cliente sino -1
+**/
 int cli_borrarCliente(clientes* pArray, int len, int id)
 {
 	int retorno = -1;
@@ -183,6 +193,8 @@ int cli_borrarCliente(clientes* pArray, int len, int id)
 *\param len limite de pArray
 *\param pArrayAfi array de afiches que se recorre
 *\param limiteAfi limite de pArrayAfi
+*\param devID retorna el id de la venta
+*\return en caso exito retorna 0 sino -1
 **/
 int cli_PorIDprintclie(clientes* pArray, int len, afiches * pArrayAfi, int limiteAfi, int *devID)
 {
@@ -223,9 +235,10 @@ int cli_PorIDprintclie(clientes* pArray, int len, afiches * pArrayAfi, int limit
 }
 /**
 * \brief    Se utiliza esta funcion para mostrar todos los datos de los
-*           clientes del array
-* \param arrayClientes Es el array que se recorre
-* \param lenClientes Es el limite de clientes que puede guardar el array
+*           clientes del array utilizando un id
+* \param pArray Es el array que se recorre
+* \param limite Es el limite de clientes que puede guardar el array
+*\param idCliente es el id del cliente que queremos imprimir
 * \return El retorno es 0 si se mostraron los datos, si no el retorno es -1.
 */
 int cliente_mostrar(clientes* pArray, int limite, int idCliente)
@@ -248,7 +261,7 @@ int cliente_mostrar(clientes* pArray, int limite, int idCliente)
     return retorno;
 }
 /**
-* \brief    imprime los clientes segun el id de venta
+* \brief    imprime los clientes con la cantidad de ventas a cobrar
 * \param pArray Es el array que se recorre
 * \param limite Es el limite de clientes que puede guardar el array
 * \param pArrayAfi Es el array que se recorre
@@ -280,7 +293,7 @@ int printClientesAfiches(clientes* pArray, int limite, afiches* pArrayAfi, int l
                     printf("Nombre:  %s\n", pArray[i].nombre);
                     printf("Apellido: %s\n", pArray[i].apellidos);
                     printf("Cuit: %s\n", pArray[i].cuit);
-                    printf("cantidad: %d\n", contadorAfiches);
+                    printf("Cantidad de ventas a cobrar: %d\n", contadorAfiches);
             }
         }
 
@@ -318,7 +331,7 @@ int mostarMenu(clientes * pArray, int limite,afiches* pArrayAfic, int limiteAfi)
         printf("11- Zona con mas afiches vendidos\n");
         printf("12- Cliente que compro menos afiches\n");
         printf("13- Cliente con mas afiches a cobrar\n");
-        printf("14- Cliente con mas de 500 afiches\n");
+        printf("14- Cantidad de Clientes con mas de 500 afiches\n");
         printf("15- Cantidad de afiches vendidos por zona\n");
         printf("16- Cantidad de afiches vendidos promedio por cliente\n");
         printf("17- Listar ventas ordenadas por zona\n");
