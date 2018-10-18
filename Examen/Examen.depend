@@ -265,3 +265,78 @@
 	<string.h>
 	<ctype.h>
 
+1539886886 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\afiches.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+
+1539886887 c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\utn.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1539886887 c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\clientes.h
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<ctype.h>
+	"afiches.h"
+	"utn.h"
+
+1539886887 c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\afiches.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+
+1539886887 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\clientes.c
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+	"informes.h"
+
+1539886887 c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\informes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+
+1539886887 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+
+1539886887 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\utn.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1539887033 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\informes.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"utn.h"
+	"clientes.h"
+	"afiches.h"
+

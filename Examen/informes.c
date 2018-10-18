@@ -402,6 +402,7 @@ int informar_promedioAfichesCliente(clientes * pArray, int limite, afiches*pArra
      {
          promedio = acumuladorAfiches / contadorClientes;
          printf("El promedio por clientes de afiches es: %f\n", promedio);
+         retorno = 0;
      }
  }
  return retorno;
