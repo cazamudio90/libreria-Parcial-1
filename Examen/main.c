@@ -20,9 +20,10 @@ int main()
 
     afiches_ingresoForzado(aficheArray, CANTIDAD_AFICHES, 15, "imagenjpg", "CABA", 0, "a cobrar");
     afiches_ingresoForzado(aficheArray, CANTIDAD_AFICHES, 2000, "imagenjpg", "ZONA SUR", 1, "a cobrar");
+    afiches_ingresoForzado(aficheArray, CANTIDAD_AFICHES, 200, "imagenjpg", "CABA", 0, "a cobrar");
     afiches_ingresoForzado(aficheArray, CANTIDAD_AFICHES, 25, "imagenjpg", "ZONA OESTE", 2, "a cobrar");
     afiches_ingresoForzado(aficheArray, CANTIDAD_AFICHES, 10, "imagenjpg", "CABA", 0, "a cobrar");
-    afiches_ingresoForzado(aficheArray, CANTIDAD_AFICHES, 200, "imagenjpg", "CABA", 0, "a cobrar");
+
 
     //cliente_mostrar(clientesArray, CANTIDAD_CLIENTES);
     //printAfiches(aficheArray, CANTIDAD_AFICHES);

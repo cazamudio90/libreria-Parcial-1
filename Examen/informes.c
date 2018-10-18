@@ -430,15 +430,6 @@ int informar_listarVentasPorZona(afiches* pArrayAfic, int limiteAfic)
                 printAfichesPorID(pArrayAfic, limiteAfic, auxId);
             }
         }
-        printf("ZONA SUR\n");
-        printf("-----------------------------------------\n");
-        for (j=0; j< limiteAfic; j++)
-        {
-            if(pArrayAfic[j].isEmpty == 1 && strcmp(pArrayAfic[j].zona,"ZONA SUR")==0)
-            {
-                printAfichesPorID(pArrayAfic,limiteAfic,pArrayAfic[j].idAfiches);
-            }
-        }
         printf("ZONA OESTE\n");
         printf("-----------------------------------------\n");
         for (m=0; m< limiteAfic; m++)
@@ -448,7 +439,18 @@ int informar_listarVentasPorZona(afiches* pArrayAfic, int limiteAfic)
                 printAfichesPorID(pArrayAfic,limiteAfic,pArrayAfic[m].idAfiches);
             }
         }
+        printf("ZONA SUR\n");
+        printf("-----------------------------------------\n");
+        for (j=0; j< limiteAfic; j++)
+        {
+            if(pArrayAfic[j].isEmpty == 1 && strcmp(pArrayAfic[j].zona,"ZONA SUR")==0)
+            {
+                printAfichesPorID(pArrayAfic,limiteAfic,pArrayAfic[j].idAfiches);
+            }
+        }
         retorno = 0;
     }
     return retorno;
 }
+
+

@@ -297,7 +297,7 @@
 	"clientes.h"
 	"afiches.h"
 
-1539886887 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\clientes.c
+1539890270 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\clientes.c
 	<stdio.h>
 	<string.h>
 	<stdlib.h>
@@ -307,7 +307,7 @@
 	"afiches.h"
 	"informes.h"
 
-1539886887 c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\informes.h
+1539890271 c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\informes.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -316,7 +316,7 @@
 	"clientes.h"
 	"afiches.h"
 
-1539886887 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\main.c
+1539890140 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -331,7 +331,7 @@
 	<string.h>
 	<ctype.h>
 
-1539887033 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\informes.c
+1539889958 source:c:\users\cazamudi\downloads\libreria-parcial-1-master\libreria-parcial-1-master\examen\informes.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
